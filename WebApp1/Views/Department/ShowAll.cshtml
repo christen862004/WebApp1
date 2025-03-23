@@ -1,0 +1,25 @@
+﻿@model List<Department>
+@{
+    ViewData["Title"] = "ShowAll";
+}
+
+<h1>ShowAll</h1>
+<!--List<Deprtment>-->
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>No</th>
+        <th>Name</th>
+    </tr>
+
+    @if (Model != null)
+    {
+        @foreach (Department item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+            </tr>
+        }
+
+    }
+</table>

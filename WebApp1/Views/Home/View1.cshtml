@@ -1,1 +1,41 @@
-﻿<h1>My First View :)</h1>
+﻿<h1>My First View :) World</h1>
+
+<!--style Internal-->
+<style>
+h1{
+    background-color:yellow;
+    color:red;
+}
+</style>
+
+<script>
+    console.log("Im js code");
+</script>
+<!--C# Code using Razor syntax-->
+<!--Block of  C# code-->
+@{
+    int x = 10;
+    int y = x + 10;//20
+    int result = x + y;
+}
+<!--inline C# Code relace with content display html-->
+<h2>@result</h2>
+@(x+y)
+
+<!--Condtion Statment Server Side-->
+@if (x > y)
+{
+    <h2> X Greater Than Y</h2>
+}else
+{
+    <h2> X = @x
+        Less Than Y = @y
+    </h2>
+}
+<!--Looping Statment (for | while |do while |foreach)-->
+<ul>
+@for(int i = 1; i <= 10; i++)
+{
+    <li>@i</li>
+}
+</ul>
