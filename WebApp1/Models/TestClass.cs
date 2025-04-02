@@ -8,7 +8,19 @@
     //child close type
     public class Child : Partent<int>
     {
+        object _viewData;//
 
+        public object ViewData
+        {
+            get { return _viewData; }
+            set { _viewData = value; }
+        }
+        //public property wrap the same filed
+        public object ViewBag
+        {
+            get { return _viewData; }
+            set { _viewData = value; }
+        }
     }
     public class TestClass
     {

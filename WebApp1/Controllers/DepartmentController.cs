@@ -9,11 +9,17 @@ namespace WebApp1.Controllers
     {
         CompanyContext companyContext = new CompanyContext();//most of action
 
+        public DepartmentController()
+        {
+            
+        }
+
         //endpoint url :\Department\ShowAll
         public IActionResult ShowAll()
         {
             //get data from model
-            List<Department> deptList= companyContext.Department.AsNoTracking().ToList();
+            List<Department> deptList= 
+                companyContext.Department.AsNoTracking().ToList();
             //send data to view
             // return View("ShowAll");//go to view with name ShowAll  with no data Empty
             return View("ShowAll",deptList);//View Showall ,Model with type List<Deprtment>

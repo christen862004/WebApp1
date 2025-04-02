@@ -9,6 +9,7 @@ namespace WebApp1.Models
         public string? Address { get; set; }
         public int Salary { get; set; }
         public string? ImageURL { get; set; }
+        
         [ForeignKey("Department")]
         public int DepartmentID { get; set; }
 
