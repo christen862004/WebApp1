@@ -62,5 +62,33 @@ namespace WebApp1.Controllers
            
          }
         #endregion
+
+        #region    Edit
+        public IActionResult Edit(int id)
+        {
+            Employee emp = companyContext.Employee.FirstOrDefault(e => e.Id == id);
+            return View("Edit", emp);
+        }
+        [HttpPost]//edit | add
+        public IActionResult SaveEdit(Employee empFromReq)
+        {
+            if(empFromReq.Name!=null && empFromReq.Salary > 7000)
+            {
+                //get old reference
+                Employee empFromDB=
+                    companyContext.Employee.FirstOrDefault(e => e.Id == empFromReq.Id);
+                //change value
+                empFromDB.Name = empFromReq.Name;
+                empFromDB.Salary = empFromReq.Salary;
+                empFromDB.Address = empFromReq.Address;
+                empFromDB.ImageURL = empFromReq.ImageURL;
+                empFromDB.DepartmentID = empFromReq.DepartmentID;
+                //save Chnages
+                companyContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View("Edit", empFromReq);
+        }
+        #endregion
     }
 }
