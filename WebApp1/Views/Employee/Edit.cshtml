@@ -15,16 +15,44 @@
         <input type="number" name="Salary" id="Salary" value="@Model.Salary" class="form form-control" />
     </div>
     <div>
+        
+        <!--Pure html-->
+        @*
         <label>Address</label>
-        <input type="text" name="Address" id="Address" value="@Model.Address" class="form form-control" />
+        <input type="text" name="Address" id="Address" value="@Model.Address" class="form form-control" /> *@
+        <!--Pure C# using HTML Helper-->
+@*         @Html.LabelFor(e=>e.Address)
+        @Html.EditorFor(e=>e.Address) *@
+        @* @Html.TextBoxFor(e => e.Address, new { style = "color:red",@class="form form-control"}) *@
+
+        <!--Tag Helper-->
+        <label asp-for="Address"></label>
+        <input class="form form-control" asp-for="Address" style="color:red" />
     </div>
     <div>
         <label>Image URL</label>
         <input type="text" name="ImageURL" id="ImageURL" value="@Model.ImageURL" class="form form-control" />
     </div>
     <div>
-        <label>DepartmentID</label>
+        @Html.LabelFor(e=>e.DepartmentID)
+        <!-- space - -->
         <input type="text" name="DepartmentID" id="DepartmentID" value="@Model.DepartmentID" class="form form-control" />
     </div>
     <input type="submit" class="btn btn-success" value="Save"/>
 </form>
+
+<a href="/Employee/Index" class="btn btn-success">Back To List</a><br />
+<a href="/Employee/Details/@Model.Id?name=@Model.Name">Details</a>
+<hr />
+@Html.ActionLink("Back To List", "Index", "Employee", null, new { @class = "btn btn-success" })
+<br />
+@Html.ActionLink("DEtails Link","Details","Employee",new{id=Model.Id,name=Model.Name,age=12})
+<hr />
+<a asp-action="Index" asp-controller="Employee" class="btn btn-success">Back To List</a>
+<br />
+<a asp-controller="Employee" asp-action="Details" 
+asp-route-id="@Model.Id" asp-route-name="@Model.Name" asp-route-age="12">Details</a>
+
+
+
+

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApp1.Models;
 using WebApp1.ViewModels;
@@ -15,10 +16,48 @@ namespace WebApp1.Controllers
                 companyContext.Employee.ToList();
             return View("Index",EmpList); //view = index ,Model ==>List<Employee> 
         }
+        #region NEw USing Tag Helper
+       // [Authorize]
+        public IActionResult New() {
+           // ViewData["deptList"] = companyContext.Department.ToList();
+           // ViewData["deptList"] = companyContext.Department.ToList();
+
+            EmployeeWithDeptListViewModel empViewModel=new
+                EmployeeWithDeptListViewModel();
+           // Employee emp = empViewModel;
+            empViewModel.DeptList = companyContext.Department.ToList();
+            return View("New", empViewModel);  //New ,Model with type EmployeeWithDeptListViewModel
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]//post
+        public IActionResult SaveNew(EmployeeWithDeptListViewModel empFromReq)
+        {
+            if(empFromReq.Name != null && empFromReq.ImageURL!=null) {
+                Employee newEmp = new()
+                {
+                    ImageURL = empFromReq.ImageURL,
+                    Name = empFromReq.Name,
+                    Salary = empFromReq.Salary,
+                    Address = empFromReq.Address,
+                    DepartmentID = empFromReq.DepartmentID
+                };
+
+                companyContext.Employee.Add(newEmp);
+                companyContext.SaveChanges();
+                return RedirectToAction("Index", "Employee");
+            }
+            empFromReq.DeptList = companyContext.Department.ToList();
+
+            return View("New", empFromReq);
+        }
+        #endregion
+
+
         #region Details 
-        //Employee/DEtails/1 ==>Route Segmant
+        //Employee/DEtails/1?name=ahmed ==>Route Segmant
         //Employee/DEtails?id=1 ==>Query string
-        public IActionResult Details(int id)
+        public IActionResult Details(int id ,string name)
         {
             //varaible get value from differnet data source
             int Temp = 20;

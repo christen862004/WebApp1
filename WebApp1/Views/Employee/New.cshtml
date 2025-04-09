@@ -1,0 +1,42 @@
+﻿@model EmployeeWithDeptListViewModel
+@{
+    ViewData["Title"] = "New";
+    SelectList deptOptions = new SelectList(Model.DeptList,"Id","Name");
+}
+
+<h1>New</h1>
+<form asp-action="SaveNew" asp-controller="Employee" method="post">
+    <!-- asp-route-id="Model.Id"-->
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form form-control" />
+    </div>
+    <div>
+        <label asp-for="Address"></label>
+        <input asp-for="Address" class="form form-control" />
+    </div>
+    <div>
+        <label asp-for="Salary"></label>
+        <input asp-for="Salary" class="form form-control" />
+    </div>
+    <div>
+        <label asp-for="ImageURL"></label>
+        <input asp-for="ImageURL" class="form form-control" />
+    </div>
+    <div>
+        <label asp-for="DepartmentID"></label>
+        @* <input asp-for="DepartmentID" class="form form-control" /> *@
+        <select class="form form-control" asp-for="DepartmentID" asp-items="deptOptions">
+            <option value="0">-- Select Department ---</option>
+        </select>
+
+        @* <select>
+            @foreach (var item in Model.DeptList)
+            {
+                <option value="@item.Id">@item.Name</option>
+            }
+        </select> *@
+    </div>
+
+    <input type="submit" class="btn btn-success"  value="Create"/>
+</form>
