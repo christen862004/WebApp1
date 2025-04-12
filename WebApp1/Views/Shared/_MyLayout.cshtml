@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js" integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+</head>
+<body>
+    <div style="background-color:aquamarine;font-size:30px;height:150px">HEader
+        <div style="background-color:blueviolet;font-size:10px;">
+            <!--Required Section-->
+            @RenderSection("HeaderSection")
+        </div>
+
+    </div>
+    <div style="background-color:blueviolet;font-size:30px;">
+        @RenderBody()
+    </div>
+    <div style="background-color:aquamarine;font-size:30px;height:50px">Footer
+
+        <div style="background-color:blueviolet;font-size:10px;">
+            @RenderSection("FooterSection",false)
+            <!--optional Section-->
+        </div>
+    </div>
+
+</body>
+</html>

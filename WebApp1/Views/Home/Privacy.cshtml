@@ -1,6 +1,23 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
+    Layout = "_MyLayout";
+   // Layout = null;
 }
+
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+@section HeaderSection{
+    <script></script>
+    <p>Text From View To Header Section</p>
+}
+
+@* @section FooterSection {
+    <script></script>
+    <p>Text From View To Footer Section</p>
+} *@
+
+@* @section footer{
+    <p>Text From View To Footer Section</p>
+
+} *@

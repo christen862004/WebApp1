@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Index";
 }
+
 <a asp-controller="Employee" asp-action="New">New</a>
 <h1>Index</h1>
 <table class="table table-bordered table-hover">
@@ -30,3 +31,4 @@
         </tr>
     }
 </table>
+@* @Context.Session.GetString("name")*@

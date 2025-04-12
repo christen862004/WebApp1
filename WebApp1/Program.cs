@@ -24,6 +24,11 @@ namespace WebApp1
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();//default setting
+            builder.Services.AddSession(options=>
+            { 
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+            });//using default setting //create session id ,timeout 20m
+
 
             var app = builder.Build();
 
@@ -62,6 +67,9 @@ namespace WebApp1
             app.UseStaticFiles(); //handel reuest static files "wwwroot"
 
             app.UseRouting();//mapping action && contoolrt
+            
+            app.UseSession();
+
 
             app.UseAuthorization();//for remeber Permission Roles
 
