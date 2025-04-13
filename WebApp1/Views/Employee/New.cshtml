@@ -7,21 +7,27 @@
 <h1>New</h1>
 <form asp-action="SaveNew" asp-controller="Employee" method="post">
     <!-- asp-route-id="Model.Id"-->
+    <div asp-validation-summary="All" class="text-danger"></div>
+
     <div>
         <label asp-for="Name"></label>
-        <input asp-for="Name" class="form form-control" />
+        <input asp-for="Name" class="form form-control"/>
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="Address"></label>
         <input asp-for="Address" class="form form-control" />
+        <span asp-validation-for="Address" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="Salary"></label>
         <input asp-for="Salary" class="form form-control" />
+        <span asp-validation-for="Salary" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="ImageURL"></label>
         <input asp-for="ImageURL" class="form form-control" />
+        <span asp-validation-for="ImageURL" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="DepartmentID"></label>
@@ -29,14 +35,24 @@
         <select class="form form-control" asp-for="DepartmentID" asp-items="deptOptions">
             <option value="0">-- Select Department ---</option>
         </select>
-
-        @* <select>
+        <span asp-validation-for="DepartmentID" class="text-danger"></span>
+@*          <select name="DepartmentID1" id="DepartmentID1" class="">
             @foreach (var item in Model.DeptList)
             {
                 <option value="@item.Id">@item.Name</option>
             }
-        </select> *@
-    </div>
+        </select> 
+ *@    
+</div>
 
     <input type="submit" class="btn btn-success"  value="Create"/>
 </form>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    function fun() {
+
+    }
+</script>

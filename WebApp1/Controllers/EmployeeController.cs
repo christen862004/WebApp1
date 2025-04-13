@@ -16,6 +16,16 @@ namespace WebApp1.Controllers
                 companyContext.Employee.ToList();
             return View("Index",EmpList); //view = index ,Model ==>List<Employee> 
         }
+
+        public IActionResult CheckSalary(int Salary,string Address)
+        {
+            if (Salary > 7000)
+                return Json(true);
+            else
+                return Json(false);
+        }
+
+
         #region NEw USing Tag Helper
        // [Authorize]
         public IActionResult New() {
@@ -33,19 +43,29 @@ namespace WebApp1.Controllers
         [ValidateAntiForgeryToken]//post
         public IActionResult SaveNew(EmployeeWithDeptListViewModel empFromReq)
         {
-            if(empFromReq.Name != null && empFromReq.ImageURL!=null) {
-                Employee newEmp = new()
+            //if(empFromReq.Name != null && empFromReq.ImageURL!=null && empFromReq.Salary > 7000) {
+            if (ModelState.IsValid == true)
+            {
+                try
                 {
-                    ImageURL = empFromReq.ImageURL,
-                    Name = empFromReq.Name,
-                    Salary = empFromReq.Salary,
-                    Address = empFromReq.Address,
-                    DepartmentID = empFromReq.DepartmentID
-                };
+                    Employee newEmp = new()
+                    {
+                        ImageURL = empFromReq.ImageURL,
+                        Name = empFromReq.Name,
+                        Salary = empFromReq.Salary,
+                        Address = empFromReq.Address,
+                        DepartmentID = empFromReq.DepartmentID
+                    };
 
-                companyContext.Employee.Add(newEmp);
-                companyContext.SaveChanges();
-                return RedirectToAction("Index", "Employee");
+                    companyContext.Employee.Add(newEmp);
+                    companyContext.SaveChanges();
+                    return RedirectToAction("Index", "Employee");
+                }catch(Exception ex)
+                {
+                    //action scop i can add error
+                    //ModelState.AddModelError("DepartmentID", "Please Select Department");
+                    ModelState.AddModelError("other", ex.InnerException.Message);
+                }
             }
             empFromReq.DeptList = companyContext.Department.ToList();
 
@@ -108,6 +128,8 @@ namespace WebApp1.Controllers
             Employee emp = companyContext.Employee.FirstOrDefault(e => e.Id == id);
             return View("Edit", emp);
         }
+       
+        
         [HttpPost]//edit | add
         public IActionResult SaveEdit(Employee empFromReq)
         {
