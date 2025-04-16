@@ -19,7 +19,8 @@ namespace WebApp1.Models
                 validationContext.ObjectInstance as EmployeeWithDeptListViewModel;
 
 
-            CompanyContext context = new CompanyContext();
+            CompanyContext context = 
+                validationContext.GetRequiredService<CompanyContext>(); //new CompanyContext();
 
             Employee empFromDataBase = 
                 context.Employee

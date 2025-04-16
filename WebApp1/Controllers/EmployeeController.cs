@@ -2,18 +2,26 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApp1.Models;
+using WebApp1.Repository;
 using WebApp1.ViewModels;
 
 namespace WebApp1.Controllers
 {
     public class EmployeeController : Controller
     {
-        CompanyContext companyContext = new CompanyContext();
+        //CompanyContext companyContext = new CompanyContext();
+        IEmployeeRepository EmpRepository;
+        IDepartmentRepository DEptRepository;
+        //create controllerFactore
+        public EmployeeController(IDepartmentRepository deptRepo,IEmployeeRepository empRepo)
+        {
+            EmpRepository = empRepo;
+            DEptRepository = deptRepo;
+        }
         //class/method
         public IActionResult Index()
         {
-            List<Employee> EmpList= 
-                companyContext.Employee.ToList();
+            List<Employee> EmpList =   EmpRepository.GetAll();
             return View("Index",EmpList); //view = index ,Model ==>List<Employee> 
         }
 
@@ -34,8 +42,8 @@ namespace WebApp1.Controllers
 
             EmployeeWithDeptListViewModel empViewModel=new
                 EmployeeWithDeptListViewModel();
-           // Employee emp = empViewModel;
-            empViewModel.DeptList = companyContext.Department.ToList();
+            // Employee emp = empViewModel;
+            empViewModel.DeptList = DEptRepository.GetAll(); ;
             return View("New", empViewModel);  //New ,Model with type EmployeeWithDeptListViewModel
         }
 
@@ -57,8 +65,8 @@ namespace WebApp1.Controllers
                         DepartmentID = empFromReq.DepartmentID
                     };
 
-                    companyContext.Employee.Add(newEmp);
-                    companyContext.SaveChanges();
+                    EmpRepository.Add(newEmp);
+                    EmpRepository.Save();
                     return RedirectToAction("Index", "Employee");
                 }catch(Exception ex)
                 {
@@ -67,7 +75,7 @@ namespace WebApp1.Controllers
                     ModelState.AddModelError("other", ex.InnerException.Message);
                 }
             }
-            empFromReq.DeptList = companyContext.Department.ToList();
+            empFromReq.DeptList = DEptRepository.GetAll();
 
             return View("New", empFromReq);
         }
@@ -91,8 +99,8 @@ namespace WebApp1.Controllers
             ViewData["Msg"] = Message;
             ViewBag.xyz = "ayhage";//ViewData["xyz"]="ayhage";
             ViewBag.Color = "Blue";
-            
-            Employee emp= companyContext.Employee.FirstOrDefault(e=>e.Id==id);
+
+            Employee emp = EmpRepository.GetById(id); // companyContext.Employee.FirstOrDefault(e=>e.Id==id);
             return View("Details", emp);//view Details ,Model =Employee
         }
 
@@ -103,14 +111,14 @@ namespace WebApp1.Controllers
             string Message = "Hello From BackEnd";
             List<string> brchs = new() { "Assiut", "Alex", "Cairo", "Mansoura" };
             string Clr = "red";
-            Employee empModel = 
-                companyContext.Employee.Include(e=>e.Department).FirstOrDefault(e => e.Id == id);
+            Employee empModel = EmpRepository.GetById(id);
+                //companyContext.Employee.Include(e=>e.Department).FirstOrDefault(e => e.Id == id);
             //Declare ViewModel Object
             EmployeeWithBrchsColorTempMsgViewModel EmpVM = new();
             //Map source ==>desination (automapper)
             EmpVM.EmpName = empModel.Name;
             EmpVM.EmpAddress = empModel.Address;
-            EmpVM.DeptName = empModel.Department.Name;//
+            //EmpVM.DeptName = empModel.Department.Name;//
             EmpVM.Temp = 20;
             EmpVM.Color = Clr;
             EmpVM.Branches = brchs;
@@ -125,7 +133,7 @@ namespace WebApp1.Controllers
         #region    Edit
         public IActionResult Edit(int id)
         {
-            Employee emp = companyContext.Employee.FirstOrDefault(e => e.Id == id);
+            Employee emp = EmpRepository.GetById(id);
             return View("Edit", emp);
         }
        
@@ -135,17 +143,20 @@ namespace WebApp1.Controllers
         {
             if(empFromReq.Name!=null && empFromReq.Salary > 7000)
             {
+
+                EmpRepository.Update(empFromReq);
+                EmpRepository.Save();
                 //get old reference
-                Employee empFromDB=
-                    companyContext.Employee.FirstOrDefault(e => e.Id == empFromReq.Id);
-                //change value
-                empFromDB.Name = empFromReq.Name;
-                empFromDB.Salary = empFromReq.Salary;
-                empFromDB.Address = empFromReq.Address;
-                empFromDB.ImageURL = empFromReq.ImageURL;
-                empFromDB.DepartmentID = empFromReq.DepartmentID;
-                //save Chnages
-                companyContext.SaveChanges();
+                //Employee empFromDB=
+                //    EmpRepository.GetById(empFromReq.Id);
+                ////change value
+                //empFromDB.Name = empFromReq.Name;
+                //empFromDB.Salary = empFromReq.Salary;
+                //empFromDB.Address = empFromReq.Address;
+                //empFromDB.ImageURL = empFromReq.ImageURL;
+                //empFromDB.DepartmentID = empFromReq.DepartmentID;
+                ////save Chnages
+                //companyContext.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View("Edit", empFromReq);

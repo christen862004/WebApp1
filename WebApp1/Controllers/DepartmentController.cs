@@ -1,25 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApp1.Models;
+using WebApp1.Repository;
 
 namespace WebApp1.Controllers
 {
     
     public class DepartmentController : Controller
     {
-        CompanyContext companyContext = new CompanyContext();//most of action
-
-        public DepartmentController()
+        //  CompanyContext companyContext = new CompanyContext();//most of action
+        //DIP - IOC
+        IDepartmentRepository DeptRepoitory;
+        //ControllerFactory
+        public DepartmentController(IDepartmentRepository deptREpo)//DI DP (dont create but inject (ask)
         {
-            
+            //DeptRepoitory = new DepartmentRepository();
+            DeptRepoitory= deptREpo;//initlaiztiop
         }
 
         //endpoint url :\Department\ShowAll
         public IActionResult ShowAll()
         {
             //get data from model
-            List<Department> deptList= 
-                companyContext.Department.AsNoTracking().ToList();
+            List<Department> deptList =
+                DeptRepoitory.GetAll();
             //send data to view
             // return View("ShowAll");//go to view with name ShowAll  with no data Empty
             return View("ShowAll",deptList);//View Showall ,Model with type List<Deprtment>
@@ -37,8 +41,8 @@ namespace WebApp1.Controllers
         {
             if (deptFromRequest.Name != null)
             {
-                companyContext.Department.Add(deptFromRequest);
-                companyContext.SaveChanges();
+                DeptRepoitory.Add(deptFromRequest);
+                DeptRepoitory.Save();
                 //Dry
                 return RedirectToAction("ShowAll", "Department");
             }

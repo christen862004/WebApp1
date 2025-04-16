@@ -1,0 +1,13 @@
+﻿@using WebApp1.Repository
+@inject ITEstREpository testREpo
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<h3>Service Id from Controller </h3>
+<h4>@ViewBag.Id</h4>
+<hr />
+<h3>Service Id from View </h3>
+<h4>@testREpo.Id</h4>

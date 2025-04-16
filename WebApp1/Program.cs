@@ -1,4 +1,7 @@
 using Microsoft.Data.SqlClient.DataClassification;
+using Microsoft.EntityFrameworkCore;
+using WebApp1.Models;
+using WebApp1.Repository;
 
 namespace WebApp1
 {
@@ -23,13 +26,26 @@ namespace WebApp1
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            //1) sevice already defined alsread Register contrinaer
+            //2) sevice already defined need to Register container
             builder.Services.AddControllersWithViews();//default setting
             builder.Services.AddSession(options=>
             { 
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
-            });//using default setting //create session id ,timeout 20m
+            });
+          
+            builder.Services.AddDbContext<CompanyContext>(
+                option=>option.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
+                );//call companycontext parmeter constructor
 
 
+
+            //3) service developer define and register   
+            //register determin life time (create)
+            builder.Services.AddScoped<ITEstREpository, TestRepository>();
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline. using middleware

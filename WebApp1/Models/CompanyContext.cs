@@ -7,17 +7,20 @@ namespace WebApp1.Models
         public DbSet<Employee> Employee { get; set; }
         public DbSet<Department> Department { get; set; }
 
-        public CompanyContext():base()
-        {
+//        public CompanyContext():base()
+        //{
             
-        }
-        //public CompanyContext(DbContextOptions<CompanyContext> option):base(option)
-        //{ 
         //}
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public CompanyContext(DbContextOptions<CompanyContext> option) : base(option)
         {
-            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=G1MVC;Integrated Security=True;Encrypt=False");
         }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=G1MVC;Integrated Security=True;Encrypt=False");
+        //}
+
+
     }
 }
