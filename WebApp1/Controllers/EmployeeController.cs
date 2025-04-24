@@ -33,9 +33,27 @@ namespace WebApp1.Controllers
                 return Json(false);
         }
 
+        #region Return Emp card PArtial
+        public IActionResult GetEmpCard(int id)
+        {
+            Employee emp = EmpRepository.GetById(id);
+            return PartialView("_EmpCardPartial", emp);
+        }
+
+
+        #endregion
+
+        #region Delete
+        public IActionResult Delete(int id)
+        {
+            Employee emp = EmpRepository.GetById(id); 
+            return View("Delete", emp);
+        }
+        #endregion
+
 
         #region NEw USing Tag Helper
-       // [Authorize]
+        // [Authorize]
         public IActionResult New() {
            // ViewData["deptList"] = companyContext.Department.ToList();
            // ViewData["deptList"] = companyContext.Department.ToList();

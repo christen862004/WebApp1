@@ -2,7 +2,26 @@
 @{
     ViewData["Title"] = "Details";
 }
+<partial name="_EmpCardPartial"/>
+<a href="/Employee/Edit/@Model.Id">Edit</a>
+<a href="/Employee/index">Index</a>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* 
 <h1>Details</h1>
 <h2 style="color:@ViewData["Color"]">@Model.Name</h2>
 <h3>@Model.Address</h3>
@@ -35,7 +54,7 @@
 
 <a href="/Employee/Index">Back To List</a>
 <hr />
-
+ *@
 <!--
     1) Magic String (Key) must be right and found  key 
     2-1) unBoxing(type CAsting)

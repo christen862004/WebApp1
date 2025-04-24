@@ -32,6 +32,11 @@ namespace WebApp1.Repository
             throw new NotImplementedException();
         }
 
+        public List<Employee> GetByDeptId(int deptId, string includes = null)
+        {
+            throw new NotImplementedException();
+        }
+
         public Employee GetById(int id)
         {
             throw new NotImplementedException();

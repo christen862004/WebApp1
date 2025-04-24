@@ -1,0 +1,45 @@
+﻿@model List<Department>
+@{
+    ViewData["Title"] = "Index";
+    SelectList deptList = new SelectList(Model, "Id", "Name");
+}
+<a href="/Department/ShowAll#div1">DEtails</a>
+@* <a asp-fragment="div1">Details</a> *@
+<h1>Index</h1>
+<!--/Department/GetEmps?deptId=1-->
+<select class="form form-control" id="DepartmentID" 
+        name="DEpartmentID" asp-items="deptList"
+        onchange="GetEmp()">
+    <option value="0">-- Select Department --</option>
+
+</select>
+<select class="form form-control" id="EmpId" name="EmpId">
+
+</select>
+
+
+<ul id="emp"></ul>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    function GetEmp() {
+        //get dep Id seletecd
+        var deptID = $("#DepartmentID").val();
+        var EmpListElement = $("#EmpId");
+
+        EmpListElement.html("");//remove old select option
+        
+        //ajax call action take dpet id return list<emp>
+        $.ajax({
+            url: "/Department/GetEmps?deptId=" + deptID,
+            success: function (result) {
+                for (let emp of result) {
+                    console.log(emp);
+                    EmpListElement.append(`<option value=${emp.id}>${emp.name}</option>`)
+                    $("#emp").append(`<li>${emp.name}</li>`)
+                }
+            }
+        });
+        
+        //Display Select tage
+    }
+</script>

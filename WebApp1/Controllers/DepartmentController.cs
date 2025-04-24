@@ -11,11 +11,14 @@ namespace WebApp1.Controllers
         //  CompanyContext companyContext = new CompanyContext();//most of action
         //DIP - IOC
         IDepartmentRepository DeptRepoitory;
+        private readonly IEmployeeRepository empRepo;
+
         //ControllerFactory
-        public DepartmentController(IDepartmentRepository deptREpo)//DI DP (dont create but inject (ask)
+        public DepartmentController(IDepartmentRepository deptREpo,IEmployeeRepository EmpRepo)//DI DP (dont create but inject (ask)
         {
             //DeptRepoitory = new DepartmentRepository();
             DeptRepoitory= deptREpo;//initlaiztiop
+            empRepo = EmpRepo;
         }
 
         //endpoint url :\Department\ShowAll
@@ -29,6 +32,17 @@ namespace WebApp1.Controllers
             return View("ShowAll",deptList);//View Showall ,Model with type List<Deprtment>
         }
 
+        public IActionResult Index()
+        {
+            List<Department> deptList = DeptRepoitory.GetAll();
+            return View("Index", deptList);
+        }
+        ///Department/GetEmps?deptId=1 <summary>
+        public IActionResult GetEmps(int deptId)
+        {
+            var empList= empRepo.GetByDeptId(deptId).Select(e=>new { e.Id,e.Name});
+            return Json(empList);
+        }
         #region New
         public IActionResult New()
         {

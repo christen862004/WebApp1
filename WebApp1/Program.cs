@@ -82,16 +82,31 @@ namespace WebApp1
             }
             app.UseStaticFiles(); //handel reuest static files "wwwroot"
 
-            app.UseRouting();//mapping action && contoolrt
+            app.UseRouting();//mapping action && controller "Security Boy"
             
             app.UseSession();
 
 
             app.UseAuthorization();//for remeber Permission Roles
+                      #region Custom Route
+            //Staff define execute
+                                   //custom route 
+                                   //Nameing converntion Route(MVC)
+                                   //Route Attribute (Web aPI)
+           
+            //app.MapControllerRoute("Rout1", "r1/{age:int:range(20,60)}/{name:maxlength(10):minlength(3)}",
+            //app.MapControllerRoute("Rout1", "r1/{age:int:range(20,60)}/{name?}",
+            #endregion
+
+            //r1/method1
+            //r1/Method2
+            //app.MapControllerRoute("Rout1", "{contorller}/{action}",
+            //    new {controller="Route",action="Method1"});
+
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Employee}/{action=Index}/{id?}");
             #endregion
             app.Run();
         }

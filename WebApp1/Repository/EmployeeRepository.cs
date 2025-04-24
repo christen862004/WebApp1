@@ -11,6 +11,31 @@ namespace WebApp1.Repository
             context = ctx;//
            // context = new CompanyContext();
         }
+        //GetByDeptId(1)
+        //GetByDeptId(1,"Department")
+        public List<Employee> GetByDeptId(int deptId, string includes = null)
+        {
+            if (includes == null)
+            {
+                return context.Employee.Where(e=>e.DepartmentID==deptId).ToList();
+            }
+            else
+            {
+                return context.Employee.Include(includes).Where(e => e.DepartmentID == deptId).ToList();
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
 
         public void Add(Employee entity)
         {
@@ -35,6 +60,8 @@ namespace WebApp1.Repository
             }
             return context.Employee.Include(include).ToList();
         }
+
+        
 
         public Employee GetById(int id)
         {

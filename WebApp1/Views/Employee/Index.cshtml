@@ -5,6 +5,7 @@
 
 <a asp-controller="Employee" asp-action="New">New</a>
 <h1>Index</h1>
+<div id="div1" style="border:5px solid red"></div>
 <table class="table table-bordered table-hover">
     <tr>
         <th>ID</th>
@@ -16,19 +17,41 @@
         <tr>
             <td>@item.Id</td>
             <td>@item.Name</td>
-            <td>@item.ImageURL</td>
-            <td>
+            @* <td>@item.ImageURL</td> *@
+           @*  <td>
                 <img src="/images/@item.ImageURL" style="width:50px;" />
-            </td>
+            </td> *@
             <td>
                 <a href="/Employee/Details/@item.Id">Details</a>
-
             </td>
             <td>
+                @* <a href="/Employee/GetEmpCard/@item.Id">Details Partial </a> *@
+                <input type="button" class="btn btn-success"
+                       value="Details Partial" onclick="LoadCard(@item.Id)" />
+            </td>
+           @*  <td>
                 <a href="/Employee/Edit/@item.Id">Edit</a>
 
             </td>
+            <td>
+                <a href="/Employee/Delete/@item.Id">Delete</a>
+
+            </td> *@
         </tr>
     }
 </table>
 @* @Context.Session.GetString("name")*@
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    //set of technoloy (xmlHttpRequest ,js , dom)
+    function LoadCard(id) {
+        //ajax call (js | Jquery)
+        $.ajax({
+            url: "/Employee/GetEmpCard/"+id,
+            success: function (result) {
+                console.log(result);
+                $("#div1").html(result);
+            }
+        });
+    }
+</script>
