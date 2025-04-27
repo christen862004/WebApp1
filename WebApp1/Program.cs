@@ -1,5 +1,6 @@
 using Microsoft.Data.SqlClient.DataClassification;
 using Microsoft.EntityFrameworkCore;
+using WebApp1.Filtters;
 using WebApp1.Models;
 using WebApp1.Repository;
 
@@ -28,7 +29,12 @@ namespace WebApp1
             // Add services to the container.
             //1) sevice already defined alsread Register contrinaer
             //2) sevice already defined need to Register container
-            builder.Services.AddControllersWithViews();//default setting
+            //builder.Services.AddControllersWithViews(options =>
+            //{
+            //    //Global Scope
+            //    options.Filters.Add(new HandelErrorAttribute());
+            //});//default setting
+            builder.Services.AddControllersWithViews();
             builder.Services.AddSession(options=>
             { 
                 options.IdleTimeout = TimeSpan.FromMinutes(30);

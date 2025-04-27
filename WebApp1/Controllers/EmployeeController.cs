@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApp1.Models;
@@ -124,8 +125,10 @@ namespace WebApp1.Controllers
 
 
         public IActionResult DetailsVM(int id) {
+            
             //collect data From Differnet REsource
             int Temp = 20;
+            Temp.GetHashCode()
             string Message = "Hello From BackEnd";
             List<string> brchs = new() { "Assiut", "Alex", "Cairo", "Mansoura" };
             string Clr = "red";
