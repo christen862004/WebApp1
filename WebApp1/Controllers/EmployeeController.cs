@@ -20,6 +20,7 @@ namespace WebApp1.Controllers
             DEptRepository = deptRepo;
         }
         //class/method
+        [Authorize]//check Cookie Identity.Cooki
         public IActionResult Index()
         {
             List<Employee> EmpList =   EmpRepository.GetAll();
@@ -128,7 +129,7 @@ namespace WebApp1.Controllers
             
             //collect data From Differnet REsource
             int Temp = 20;
-            Temp.GetHashCode()
+            
             string Message = "Hello From BackEnd";
             List<string> brchs = new() { "Assiut", "Alex", "Cairo", "Mansoura" };
             string Clr = "red";

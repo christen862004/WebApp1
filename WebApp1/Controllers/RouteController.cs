@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Security.Claims;
 using WebApp1.Filtters;
 
 namespace WebApp1.Controllers
@@ -10,6 +11,29 @@ namespace WebApp1.Controllers
     [HandelError]//controller scop (all action inside this controller)
     public class RouteController : Controller
     {
+
+        //Action Check Authorize or not without using Authorize Filtter
+        
+        public IActionResult Welcome()
+        {
+            //User.IsInRole("Admin")
+            //autho Welcome Ahmed
+            if (User.Identity.IsAuthenticated == true)
+            {
+                Claim? IdClaim= User.Claims
+                    .FirstOrDefault(c => c.Type ==ClaimTypes.NameIdentifier);
+                string id = IdClaim.Value;
+
+                Claim? AddClaim = User.Claims
+                    .FirstOrDefault(c => c.Type == "Address");
+                string Address = AddClaim.Value;
+
+                return Content($"Welcome Ya {User.Identity.Name}");
+            }else
+                return Content("Welcome Gust");
+        }
+
+
 
         //Route/test1
         //[HandelError]

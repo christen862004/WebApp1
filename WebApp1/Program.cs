@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient.DataClassification;
 using Microsoft.EntityFrameworkCore;
 using WebApp1.Filtters;
@@ -44,6 +45,12 @@ namespace WebApp1
                 option=>option.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
                 );//call companycontext parmeter constructor
 
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                //options.Password.RequiredLength=4
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+            }).AddEntityFrameworkStores<CompanyContext>();
 
 
             //3) service developer define and register   
@@ -112,7 +119,7 @@ namespace WebApp1
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Employee}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}");
             #endregion
             app.Run();
         }

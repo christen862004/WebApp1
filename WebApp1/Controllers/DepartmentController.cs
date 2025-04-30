@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApp1.Models;
 using WebApp1.Repository;
 
 namespace WebApp1.Controllers
 {
-    
+    [Authorize(Roles ="Admin")]//cookie + Role =Admin
     public class DepartmentController : Controller
     {
         //  CompanyContext companyContext = new CompanyContext();//most of action
